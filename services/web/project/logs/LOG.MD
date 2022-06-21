@@ -1,0 +1,1 @@
+This directory is configured to have a single location within the project where logs are stored
