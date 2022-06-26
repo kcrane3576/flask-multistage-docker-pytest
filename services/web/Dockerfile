@@ -8,31 +8,24 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# install system dependencies
+RUN apt-get update && apt-get install -y netcat
+
 # install dependencies
 RUN pip install --upgrade pip
-# COPY ./requirements.txt /usr/src/app/requirements.txt
-# TODO this should not need to be done like this
-COPY /services/web/ /usr/src/app/
+COPY ./requirements.txt /usr/src/app/requirements.txt
 
-# COPY . /usr/src/app/
-
-RUN ls -la
-# RUN pip install -r requirements.txt
 RUN pip install -r requirements.txt
-RUN ls -la
 
+########
+# Test #
+########
 FROM base
-# RUN cd project/tests/unit
-RUN ls -la
-# RUN pytest project/tests/unit/test_app.py
-ARG cache=1
+COPY . /usr/src/app/
 RUN pytest project/tests
 
+
+#######
+# Dev #
+#######
 FROM base 
-CMD python
-
-RUN ls -la
-
-
-# copy project
-# COPY . /usr/src/app/
